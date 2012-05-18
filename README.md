@@ -16,3 +16,6 @@ upyun-ruby
 
 
 
+---
+
+@gccyugi 写了一个Lua风格的upyun客户端在 [这里](http://gist.github.com/2723675)，此外，TA还写了一个 [Python客户端](http://gist.github.com/2658028)
