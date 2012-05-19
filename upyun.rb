@@ -15,7 +15,7 @@ class UpYun
 
   def writeFile(filepath, fd, mkdir='true')
     url = "http://#{api_domain}/#{bucketname}#{filepath}"
-    uri = URI.parse(url)
+    uri = URI.parse(URI.encode(url))
 
     Net::HTTP.start(uri.host, uri.port) do |http|
       date = getGMTDate
@@ -29,7 +29,25 @@ class UpYun
       }
 
       response = http.send_request(method, uri.request_uri, fd.read, headers)
-      puts response
+#      puts response
+    end
+  end
+
+  def readDir(filepath)
+    url = "http://#{api_domain}/#{bucketname}#{filepath}"
+    uri = URI.parse(URI.encode(url))
+    Net::HTTP.start(uri.host, uri.port) do |http|
+      date = getGMTDate
+      length = '0'
+      method = 'GET'
+      headers = {
+          'Date' => date,
+          'Folder' => 'true',
+          'Content-Length' => length,
+          'Authorization' => sign(method, getGMTDate, "/#{@bucketname}#{filepath}", length)}
+
+      response = http.send_request(method, uri.request_uri, nil, headers)
+      #puts response
     end
   end
 
@@ -39,7 +57,7 @@ class UpYun
 
   def sign(method, date, url, length)
     String sign = "#{method}&#{url}&#{date}&#{length}&#{password}"
-    puts sign
+    #   puts sign
     "UpYun #{@username}:#{Digest::MD5.hexdigest(sign)}"
   end
 
