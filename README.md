@@ -14,7 +14,11 @@ upyun-ruby
 	f = open('google.png')
 	up.writeFile('/google.png', f)
 
+### 读取文件目录
 
+	require 'upyun'
+	up = UpYun.new('bucketname', 'username', 'password')
+	up.readDir('/filepath')
 
 ---
 
